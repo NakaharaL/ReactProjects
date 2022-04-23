@@ -1,36 +1,40 @@
 import { Component } from 'react';
-
-import logo from './logo.svg';
 import './App.css';
 
 class App extends Component {
   constructor() {
     super();
     this.state = {
-      nome: 'Leonardo'
-    }
-  }
+      usuarios: [],
+    }  }
 
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Oi {this.state.nome}
-          </p>
-          <button
-            onClick={() => {
-              if (this.state.nome === 'Leonardo') {
-                this.setState({ nome: 'Daniel' })
-              } else {
-                this.setState({ nome: 'Leonardo' })
-              }
-
-            }}>Mude o nome</button>
-        </header>
+        {this.state.usuarios.map((usuario) => {
+          return (
+            <div key={usuario.id}>
+              <h1>{usuario.name}</h1>
+            </div>
+          );
+        })}
       </div>
     );
+  }
+
+  componentDidMount() {
+    fetch('https://jsonplaceholder.typicode.com/users')
+      .then((resposta) => resposta.json())
+      .then((users) =>
+        this.setState(
+          () => {
+            return { usuarios: users };
+          },
+          () => {
+            console.log(this.state);
+          }
+        )
+      )
   }
 }
 
