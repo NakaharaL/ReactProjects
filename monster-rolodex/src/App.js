@@ -6,12 +6,32 @@ class App extends Component {
     super();
     this.state = {
       usuarios: [],
-    }  }
+      nomeBuscado: ''
+    }
+  }
 
   render() {
+
+    const nomesDeUsuariosFiltrados = this.state.usuarios.filter((usuario) => {
+      return usuario.name.toLocaleLowerCase().includes(this.state.nomeBuscado);
+    })
+
     return (
       <div className="App">
-        {this.state.usuarios.map((usuario) => {
+        <input
+          className='search-box'
+          type='search'
+          placeholder='Seach monster'
+          onChange={(event) => {
+            
+            const nomeBuscado = event.target.value.toLocaleLowerCase();
+
+            this.setState(() => {
+              return { nomeBuscado };
+            })
+
+          }} />
+        {nomesDeUsuariosFiltrados.map((usuario) => {
           return (
             <div key={usuario.id}>
               <h1>{usuario.name}</h1>
