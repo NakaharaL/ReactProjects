@@ -10,10 +10,25 @@ class App extends Component {
     }
   }
 
+  onNomeBuscadoChange = (event) => {
+            
+    const nomeBuscado = event.target.value.toLocaleLowerCase();
+
+    this.setState(() => {
+      return { nomeBuscado };
+    })
+
+  }
+
   render() {
 
-    const nomesDeUsuariosFiltrados = this.state.usuarios.filter((usuario) => {
-      return usuario.name.toLocaleLowerCase().includes(this.state.nomeBuscado);
+    //Inicializando os acessos ao state
+    const { usuarios, nomeBuscado} = this.state;
+    const { onNomeBuscadoChange} = this;
+    
+    //Constante que guarda o nome dos usuários filtrados
+    const nomesDeUsuariosFiltrados = usuarios.filter((usuario) => {
+      return usuario.name.toLocaleLowerCase().includes(nomeBuscado);
     })
 
     return (
@@ -22,15 +37,7 @@ class App extends Component {
           className='search-box'
           type='search'
           placeholder='Seach monster'
-          onChange={(event) => {
-            
-            const nomeBuscado = event.target.value.toLocaleLowerCase();
-
-            this.setState(() => {
-              return { nomeBuscado };
-            })
-
-          }} />
+          onChange={onNomeBuscadoChange} />
         {nomesDeUsuariosFiltrados.map((usuario) => {
           return (
             <div key={usuario.id}>
